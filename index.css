@@ -1,0 +1,74 @@
+body {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 0;
+}
+
+h1 {
+    align-items: center;
+    text-align: center;
+}
+
+.orderForm {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    width: 100vw;
+    gap: 15px;
+}
+
+.inputbox {
+    padding:  10px 20px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+}
+
+.orders-container {
+    align-items: center;
+    text-align: center;
+}
+
+.transaction-table {
+    display: table;
+    width: 90%;
+    padding: 20px 0px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.transaction-header {
+    display: table-row;
+    font-size: 14px;
+} 
+
+.transaction-row {
+    display: table-row;
+    font-size: 20px;
+
+}
+
+.header-item, .row-item {
+    display: table-cell;
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.header-item-centered {
+    text-align: center;
+}
+
+.header-item-right, .row-item-right {
+    text-align: right;
+}
+
+.edit-mode {
+    background-color: #ffffcc; /* Slightly yellow background */
+}
+
+.orders-container p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
