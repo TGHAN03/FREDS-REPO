@@ -35,7 +35,7 @@ h2 {
     flex-wrap: wrap;
     align-items: center;
     align-content: center;
-    width: 100vw;
+    width: 100%;
     gap: 15px;
 }
 
@@ -70,7 +70,7 @@ h2 {
 .transaction-table {
     display: table;
     width: 90%;
-    padding: 20px 0px;
+    padding: 40px 0px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -83,7 +83,12 @@ h2 {
 .transaction-row {
     display: table-row;
     font-size: 20px;
+}
 
+
+.transaction-row-line {
+    display: table-row;
+    font-size: 20px;
 }
 
 .header-item, .row-item {
@@ -112,6 +117,7 @@ h2 {
 
 .transaction-results {
     display: inline-block;
+    margin: 30px 0 0 0;
 }
 
 .transaction-header2 {
@@ -144,8 +150,8 @@ h2 {
 }
 
 .special-bike-row {
-    background-color: #b1000066; /* Gold background for example */
-    color: #000; /* Black text for contrast */
+     /* Gold background for example */
+     color: #000; /* Black text for contrast */
 }
 
 /* You might also want to differentiate the header item for consistency */
@@ -155,13 +161,11 @@ h2 {
 }
 
 .export-bg {
-    position: fixed; /* Fix position relative to the viewport */
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #000000b3; /* Your preferred background color */
-    text-align: center; /* Center the content */
-    padding: 10px 0; /* Add some padding */
+     /* Fix position relative to the viewport */
+     background-color: #000000b3; /* Your preferred background color */
+     text-align: center; /* Center the content */
+     padding: 10px 0; /* Add some padding */
+     margin: 60px 0 0 0;
 }
 
 .export-container {

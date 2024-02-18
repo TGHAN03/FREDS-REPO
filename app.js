@@ -27,6 +27,12 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
         window._appOrders.push(order);
     }
 
+    // Validate bikeId
+    if (![1, 2, 3, 4, 5].includes(bikeId)) {
+        alert("Invalid Bike ID. Please enter a Bike ID between 1 and 5.");
+        return; // Stop execution if bikeId is not valid
+    }
+
     window.editingIndex = null;
     resetFormAndClearEditMode(); // Now resets form and clears edit mode
 
@@ -86,7 +92,7 @@ function updateTotalTipsByBikeId() {
     });
 
     const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '<div class="transaction-header2"><div class="header-item2">Bike ID</div><div class="header-item2">Total Tips</div></div>';
+    resultsDiv.innerHTML = '<div class="transaction-header2"><div class="header-item2">Bike ID</div><div class="header-item2">Name</div><div class="header-item2">Total Tips</div></div>';
     
     [1, 2, 4, 5, 3].forEach(bikeId => {
         const bikeName = bikeIdNames[bikeId]; // Get the bike name
