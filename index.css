@@ -154,25 +154,33 @@ h2 {
     color: #000; /* Matching header text color */
 }
 
+.export-bg {
+    position: fixed; /* Fix position relative to the viewport */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000000b3; /* Your preferred background color */
+    text-align: center; /* Center the content */
+    padding: 10px 0; /* Add some padding */
+}
+
+.export-container {
+    display: inline-block; /* Make the container inline for centering */
+    list-style: none;
+    margin: 0;
+    padding: 5px;
+}
+
 .export {
-    padding:  10px 20px;
+    padding: 15px 20px;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
     border-radius: 5px;
     border-style: solid;
-    border-width: 1px;
-    background-color: #00b93842;
-    bottom: 0;
+    border-width: 0px;
+    background-color: #00b938; /* Adjust the background color as needed */
+    color: white; /* Text color */
     font-weight: bold;
-}
-
-.export-container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-    align-content: center;
-    width: 100vw;
-    gap: 15px;
+    cursor: pointer;
 }

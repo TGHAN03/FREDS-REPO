@@ -55,7 +55,7 @@ function displayOrders() {
         orderRow.innerHTML = `
             <div class="row-item">${order.orderNumber}</div>
             <div class="row-item">$${order.tipAmount.toFixed(2)}</div>
-            <div class="row-item">${order.bikeId} - ${bikeName}</div>
+            <div class="row-item">${order.bikeId} (${bikeName})</div>
             <div class="row-item"><button onclick="editOrder(${index})">✏️</button></div>
         `;
         ordersContainer.appendChild(orderRow);
@@ -93,7 +93,8 @@ function updateTotalTipsByBikeId() {
         const totalRow = document.createElement('div');
         totalRow.className = bikeId === 3 ? 'transaction-row2 special-bike-row' : 'transaction-row2';
         totalRow.innerHTML = `
-            <div class="row-item2">${bikeId} - ${bikeName}</div>
+            <div class="row-item2">${bikeId}</div>
+            <div class="row-item2">${bikeName}</div>
             <div class="row-item2">$${window._appTotalTipsByBikeId[bikeId].toFixed(2)}</div>
                 `;
                 resultsDiv.appendChild(totalRow);
@@ -110,6 +111,8 @@ function updateTotalTipsByBikeId() {
                 document.getElementById('exportCsv').addEventListener('click', function() {
                 exportOrdersToCsv();
                 });
+
+
                 
                 function exportOrdersToCsv() {
                     let csvContent = "data:text/csv;charset=utf-8,";
