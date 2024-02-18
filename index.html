@@ -7,19 +7,19 @@
     <link rel="stylesheet" href="index.css"> 
 </head>
 <body>
-    <h1>Order Log and Tip Calculator</h1>
+    <h1>FredLabs</h1>
     <form id="orderForm" class="orderForm">
         <input class="inputbox" type="number" id="orderNumber" placeholder="Order Number" required>
         <input class="inputbox" type="number" id="tipAmount" placeholder="Tip Amount" step="0.01" required>
         <input class="inputbox" type="number" id="bikeId" placeholder="Bike ID" required>
-        <button class="inputbox" type="submit">Log Order</button>
+        <button class="inputbox2" type="submit">Log Order</button>
     </form>
 
     <div class="orders-container">
 
         <div id="orderList" class="transaction-table"></div>
 
-        <div id="results">
+        <div id="results" class="transaction-results">
             <h2>Results</h2>
             <p>Total Tips: <span id="totalTips">0</span></p>
         </div>
