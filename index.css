@@ -81,7 +81,7 @@ h2 {
 .transaction-table {
     display: table;
     width: 75%;
-    padding: 40px 0 75px;
+    padding: 40px 0 91px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -127,7 +127,6 @@ h2 {
 }
 
 .results-container {
-    /* display: inline-block; */
     width: 100%;
     background-color: #0000003b;
 }
