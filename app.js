@@ -51,9 +51,9 @@ function displayOrders() {
     headerRow.className = 'transaction-header';
     headerRow.innerHTML = `
         <div class="header-item">Order #</div>
-        <div class="header-item">Tip Amount</div>
-        <div class="header-item">Bike ID</div>
-        <div class="header-item"><span>Edit</span></div>
+        <div class="header-item">Tip</div>
+        <div class="header-item">ID</div>
+        <div class="header-item">Actions</div>
     `;
     ordersContainer.appendChild(headerRow);
 
@@ -65,10 +65,23 @@ function displayOrders() {
             <div class="row-item">${order.orderNumber}</div>
             <div class="row-item">$${order.tipAmount.toFixed(2)}</div>
             <div class="row-item">${order.bikeId} (${bikeName})</div>
-            <div class="row-item"><button onclick="editOrder(${index})">✏️</button></div>
+            <div class="row-item">
+                <button onclick="editOrder(${index})">✏️</button>
+                <button onclick="deleteOrder(${index})">❌</button>
+            </div>
         `;
         ordersContainer.appendChild(orderRow);
     });
+}
+
+// Function to handle deletion of an order
+function deleteOrder(index) {
+    const isConfirmed = confirm("Are you sure you want to delete this order?");
+    if (isConfirmed) {
+        window._appOrders.splice(index, 1); // Remove the order from the array
+        displayOrders(); // Refresh the list of orders
+        updateTotalTipsByBikeId(); // Update totals after deletion
+    }
 }
 
 function editOrder(index) {
@@ -132,7 +145,7 @@ document.getElementById('exportCsv').addEventListener('click', function(e) {
 
 function exportOrdersToCsv() {
     let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Order Number,Tip Amount,Bike ID,Bike Name\n";
+    csvContent += "Order #,Tip,ID,Name\n";
 
     window._appOrders.forEach(function(order) {
         const bikeName = bikeIdNames[order.bikeId];
