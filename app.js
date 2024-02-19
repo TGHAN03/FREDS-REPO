@@ -145,7 +145,7 @@ document.getElementById('exportCsv').addEventListener('click', function(e) {
 
 function exportOrdersToCsv() {
     let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Order #,Tip,ID,Name\n";
+    csvContent += "Order Number,Tip Amount,Bike ID,Bike Name\n";
 
     window._appOrders.forEach(function(order) {
         const bikeName = bikeIdNames[order.bikeId];
