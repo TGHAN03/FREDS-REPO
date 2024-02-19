@@ -13,7 +13,50 @@
     display: none;
 }
 
+
+.dark-mode {
+    background-color: #474747; /* Dark background */
+    color: #e0e0e0; /* Light text */
+}
+
+.dark-mode .inputbox,
+.dark-mode .inputbox2 {
+    background-color: #121212; /* Darker elements */
+    color: #e0e0e0; /* Light text */
+    border-color: #444; /* Darker borders */
+}
+
+.dark-mode .transaction-table {
+    background-color: #12121200; /* Darker elements */
+    color: #e0e0e0; /* Light text */
+    border-color: #444; /* Darker borders */
+}
+
+.dark-mode .transaction-results {
+    background-color: #12121200; /* Darker elements */
+    color: #e0e0e0; /* Light text */
+    border-color: #444; /* Darker borders */
+}
+
+.dark-mode .header-item,
+.dark-mode .row-item,
+.dark-mode .header-item2,
+.dark-mode .row-item2 {
+    border-bottom-color: #555; /* Adjust for visibility in dark mode */
+}
+
+
 @media only screen and (min-width: 1300px) {
+
+    #toggleDarkMode {
+        padding: 5px 20px 3px;
+        border-radius: 5px;
+        border-style: hidden;
+        background-color: #121212;
+        color: white;
+        font-size: 37px;
+        margin: 0px 10px;
+    }
     body {
         display: flex;
         flex-direction: column;
@@ -35,6 +78,11 @@
         font-size: 64px;
         margin: 20px;
         color: rgb(228, 0, 0);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
     }
 
 
@@ -221,6 +269,16 @@
 
 
 @media only screen and (max-width: 1299px) {
+
+    #toggleDarkMode {
+        padding: 5px 20px 3px;
+        border-radius: 5px;
+        border-style: hidden;
+        background-color: #121212;
+        color: white;
+        font-size: 30px;
+        margin: 0px 10px;
+    }
     body {
         display: flex;
         flex-direction: column;
@@ -240,8 +298,13 @@
         font-family: coolvetica;
         letter-spacing: 1px;
         font-size: 54px;
-        margin: 20px;
+        margin: 15px;
         color: rgb(228, 0, 0);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
     }
 
 

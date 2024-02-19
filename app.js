@@ -165,3 +165,18 @@ function exportOrdersToCsv() {
         alert("No orders to export.");
     }
 }
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleDarkModeButton = document.getElementById('toggleDarkMode');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const currentMode = localStorage.getItem('darkMode');
+
+    if (currentMode === 'enabled' || (currentMode === null && prefersDarkScheme)) {
+        document.body.classList.add('dark-mode');
+    }
+
+    toggleDarkModeButton.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        let mode = document.body.classList.contains('dark-mode') ? 'enabled' : 'disabled';
+        localStorage.setItem('darkMode', mode);
+    });
+});
