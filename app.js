@@ -83,6 +83,9 @@ function editOrder(index) {
 }
 
 function updateTotalTipsByBikeId() {
+    // Make the results div visible
+    document.getElementById('results').style.display = 'block'; // Adjust display style as needed
+
     window._appTotalTipsByBikeId = {1: 0, 2: 0, 4: 0, 5: 0, 3: 0};
 
     window._appOrders.forEach(order => {
@@ -95,17 +98,17 @@ function updateTotalTipsByBikeId() {
     resultsDiv.innerHTML = '<div class="transaction-header2"><div class="header-item2">Bike ID</div><div class="header-item2">Name</div><div class="header-item2">Total Tips</div></div>';
     
     [1, 2, 4, 5, 3].forEach(bikeId => {
-        const bikeName = bikeIdNames[bikeId]; // Get the bike name
+        const bikeName = bikeIdNames[bikeId];
         const totalRow = document.createElement('div');
         totalRow.className = bikeId === 3 ? 'transaction-row2 special-bike-row' : 'transaction-row2';
         totalRow.innerHTML = `
             <div class="row-item2">${bikeId}</div>
             <div class="row-item2">${bikeName}</div>
             <div class="row-item2">$${window._appTotalTipsByBikeId[bikeId].toFixed(2)}</div>
-                `;
-                resultsDiv.appendChild(totalRow);
-                });
-                }
+        `;
+        resultsDiv.appendChild(totalRow);
+    });
+}
                 
                 function resetFormAndClearEditMode() {
                 document.getElementById('orderForm').reset();
