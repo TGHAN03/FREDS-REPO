@@ -166,6 +166,7 @@ h2 {
      text-align: center; /* Center the content */
      padding: 10px 0; /* Add some padding */
      margin: 60px 0 0 0;
+     bottom: 0;
 }
 
 .export-container {
