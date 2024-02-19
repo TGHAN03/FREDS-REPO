@@ -19,18 +19,21 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
     const tipAmount = parseFloat(document.getElementById('tipAmount').value);
     const bikeId = parseInt(document.getElementById('bikeId').value, 10);
 
+    // Clear any previous error messages
+    document.getElementById('errorMessage').textContent = '';
+
+    // Validate bikeId
+    if (![1, 2, 3, 4, 5].includes(bikeId)) {
+        document.getElementById('errorMessage').textContent = "Invalid Bike ID. Please enter a Bike ID between 1 and 5.";
+        return; // Stop execution if bikeId is not valid
+    }
+
     const order = { orderNumber, tipAmount, bikeId };
 
     if (window.editingIndex !== null) {
         window._appOrders[window.editingIndex] = order;
     } else {
         window._appOrders.push(order);
-    }
-
-    // Validate bikeId
-    if (![1, 2, 3, 4, 5].includes(bikeId)) {
-        alert("Invalid Bike ID. Please enter a Bike ID between 1 and 5.");
-        return; // Stop execution if bikeId is not valid
     }
 
     window.editingIndex = null;
@@ -50,12 +53,12 @@ function displayOrders() {
         <div class="header-item">Order #</div>
         <div class="header-item">Tip Amount</div>
         <div class="header-item">Bike ID</div>
-        <div class="header-item">Edit</div>
+        <div class="header-item"><span>Edit</span></div>
     `;
     ordersContainer.appendChild(headerRow);
 
     window._appOrders.forEach((order, index) => {
-        const bikeName = bikeIdNames[order.bikeId]; // Get the bike name
+        const bikeName = bikeIdNames[order.bikeId];
         const orderRow = document.createElement('div');
         orderRow.className = 'transaction-row';
         orderRow.innerHTML = `
@@ -83,8 +86,7 @@ function editOrder(index) {
 }
 
 function updateTotalTipsByBikeId() {
-    // Make the results div visible
-    document.getElementById('results').style.display = 'inline-block'; // Adjust display style as needed
+    document.getElementById('results').style.display = 'table'; // Show the results section
 
     window._appTotalTipsByBikeId = {1: 0, 2: 0, 4: 0, 5: 0, 3: 0};
 
@@ -96,11 +98,11 @@ function updateTotalTipsByBikeId() {
 
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = '<div class="transaction-header2"><div class="header-item2">Bike ID</div><div class="header-item2">Name</div><div class="header-item2">Total Tips</div></div>';
-    
+
     [1, 2, 4, 5, 3].forEach(bikeId => {
         const bikeName = bikeIdNames[bikeId];
         const totalRow = document.createElement('div');
-        totalRow.className = bikeId === 3 ? 'transaction-row2 special-bike-row' : 'transaction-row2';
+        totalRow.className = 'transaction-row2';
         totalRow.innerHTML = `
             <div class="row-item2">${bikeId}</div>
             <div class="row-item2">${bikeName}</div>
@@ -109,34 +111,44 @@ function updateTotalTipsByBikeId() {
         resultsDiv.appendChild(totalRow);
     });
 }
-                
-                function resetFormAndClearEditMode() {
-                document.getElementById('orderForm').reset();
-                document.getElementById('orderNumber').classList.remove('edit-mode');
-                document.getElementById('tipAmount').classList.remove('edit-mode');
-                document.getElementById('bikeId').classList.remove('edit-mode');
-                }
-                
-                document.getElementById('exportCsv').addEventListener('click', function() {
-                exportOrdersToCsv();
-                });
 
+function resetFormAndClearEditMode() {
+    document.getElementById('orderForm').reset();
+    document.getElementById('orderNumber').classList.remove('edit-mode');
+    document.getElementById('tipAmount').classList.remove('edit-mode');
+    document.getElementById('bikeId').classList.remove('edit-mode');
 
-                
-                function exportOrdersToCsv() {
-                    let csvContent = "data:text/csv;charset=utf-8,";
-                    csvContent += "Order Number,Tip Amount,Bike ID,Bike Name\n"; // CSV header
-                
-                    window._appOrders.forEach(function(order) {
-                        const bikeName = bikeIdNames[order.bikeId];
-                        let row = `${order.orderNumber},${order.tipAmount},${order.bikeId},"${bikeName}"`;
-                        csvContent += row + "\n";
-                    });
-                
-                    const encodedUri = encodeURI(csvContent);
-                    const link = document.createElement("a");
-                    link.setAttribute("href", encodedUri);
-                    link.setAttribute("download", "orders_log.csv");
-                    document.body.appendChild(link); // Necessary for Firefox
-                    link.click(); // Trigger the download
-                }
+    // Set focus to the first input box after resetting the form
+    document.getElementById('orderNumber').focus();
+}
+
+document.getElementById('exportCsv').addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent the default form submission
+    const isConfirmed = confirm("Are you sure you want to download the CSV?");
+    if (isConfirmed) {
+        exportOrdersToCsv();
+    }
+});
+
+function exportOrdersToCsv() {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Order Number,Tip Amount,Bike ID,Bike Name\n";
+
+    window._appOrders.forEach(function(order) {
+        const bikeName = bikeIdNames[order.bikeId];
+        let row = `${order.orderNumber},${order.tipAmount},${order.bikeId},"${bikeName}"`;
+        csvContent += row + "\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    if (window._appOrders.length > 0) {
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "orders_log.csv");
+        document.body.appendChild(link); // Necessary for Firefox
+        link.click();
+        document.body.removeChild(link); // Clean up after download
+    } else {
+        alert("No orders to export.");
+    }
+}
