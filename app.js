@@ -84,7 +84,7 @@ function editOrder(index) {
 
 function updateTotalTipsByBikeId() {
     // Make the results div visible
-    document.getElementById('results').style.display = 'block'; // Adjust display style as needed
+    document.getElementById('results').style.display = 'inline-block'; // Adjust display style as needed
 
     window._appTotalTipsByBikeId = {1: 0, 2: 0, 4: 0, 5: 0, 3: 0};
 
