@@ -45,6 +45,13 @@
     border-bottom-color: #555; /* Adjust for visibility in dark mode */
 }
 
+.dark-mode .edit-mode {
+    background-color: #949494;
+    color: black;
+}
+
+
+
 
 @media only screen and (min-width: 1300px) {
 
