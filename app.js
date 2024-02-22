@@ -1,3 +1,4 @@
+
 // Mapping Bike IDs to names
 const bikeIdNames = {
     1: "Eduardo",
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTotalTipsByBikeId();
     document.getElementById('orderForm').addEventListener('submit', handleFormSubmit);
     document.getElementById('exportCsv').addEventListener('click', exportOrdersToCsv);
-    
+
     // Toggle dark mode setup
     const toggleDarkModeButton = document.getElementById('toggleDarkMode');
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -41,7 +42,13 @@ function handleFormSubmit(e) {
         return;
     }
 
-    const order = { orderNumber, tipAmount, bikeId };
+    const order = { 
+        orderNumber, 
+        tipAmount, 
+        bikeId, 
+        status: 0, // Default status "PENDING"
+        ticketNumber: window._appOrders.length + 1 // Ticket Number
+    };
 
     if (window.editingIndex !== null) {
         window._appOrders[window.editingIndex] = order;
@@ -58,13 +65,13 @@ function handleFormSubmit(e) {
 
 function displayOrders() {
     const ordersContainer = document.getElementById('orderList');
-    ordersContainer.innerHTML = '<div class="transaction-header"><div class="header-item">Order #</div><div class="header-item">Tip</div><div class="header-item">ID</div><div class="header-item">Actions</div></div>';
+    ordersContainer.innerHTML = '<div class="transaction-header"><div class="header-item">Ticket #</div><div class="header-item">Order #</div><div class="header-item">Tip</div><div class="header-item">ID (Name)</div><div class="header-item">Status</div><div class="header-item">Actions</div></div>';
 
     window._appOrders.forEach((order, index) => {
         const bikeName = bikeIdNames[order.bikeId];
         const orderRow = document.createElement('div');
         orderRow.className = 'transaction-row';
-        orderRow.innerHTML = `<div class="row-item">${order.orderNumber}</div><div class="row-item">$${order.tipAmount.toFixed(2)}</div><div class="row-item">${order.bikeId} (${bikeName})</div><div class="row-item"><button onclick="editOrder(${index})">✏️</button><button onclick="deleteOrder(${index})">❌</button></div>`;
+        orderRow.innerHTML = `<div class="row-item">${order.ticketNumber}</div><div class="row-item">${order.orderNumber}</div><div class="row-item">$${order.tipAmount.toFixed(2)}</div><div class="row-item">${order.bikeId} (${bikeName})</div><div class="row-item">${order.status === 0 ? 'PENDING' : 'Processed'}</div><div class="row-item"><button onclick="editOrder(${index})">✏️</button><button onclick="deleteOrder(${index})">❌</button></div>`;
         ordersContainer.appendChild(orderRow);
     });
 }
@@ -83,9 +90,6 @@ function editOrder(index) {
     document.getElementById('orderNumber').value = order.orderNumber;
     document.getElementById('tipAmount').value = order.tipAmount;
     document.getElementById('bikeId').value = order.bikeId;
-    document.getElementById('orderNumber').classList.add('edit-mode');
-    document.getElementById('tipAmount').classList.add('edit-mode');
-    document.getElementById('bikeId').classList.add('edit-mode');
     window.editingIndex = index;
     document.getElementById('orderForm').scrollIntoView();
 }
@@ -113,18 +117,16 @@ function updateTotalTipsByBikeId() {
 
 function resetFormAndClearEditMode() {
     document.getElementById('orderForm').reset();
-    document.getElementById('orderNumber').classList.remove('edit-mode');
-    document.getElementById('tipAmount').classList.remove('edit-mode');
-    document.getElementById('bikeId').classList.remove('edit-mode');
+    window.editingIndex = null;
     document.getElementById('orderNumber').focus();
 }
 
 function exportOrdersToCsv() {
     if (!confirm("Are you sure you want to download the CSV?")) return;
-    let csvContent = "data:text/csv;charset=utf-8,Order Number,Tip Amount,Bike ID,Bike Name\n";
+    let csvContent = "data:text/csv;charset=utf-8,Ticket Number,Order Number,Tip Amount,Bike ID,Bike Name,Status\n";
     window._appOrders.forEach(order => {
         const bikeName = bikeIdNames[order.bikeId];
-        let row = `${order.orderNumber},${order.tipAmount},${order.bikeId},"${bikeName}"`;
+        let row = `${order.ticketNumber},${order.orderNumber},${order.tipAmount},${order.bikeId},"${bikeName}",${order.status === 0 ? 'PENDING' : 'Processed'}`;
         csvContent += row + "\n";
     });
     const encodedUri = encodeURI(csvContent);
