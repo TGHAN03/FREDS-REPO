@@ -37,8 +37,7 @@ function handleTipSubmit(e) {
 
     const tipEntry = { 
         bikeId, 
-        tipAmount, 
-        date: new Date().toISOString() 
+        tipAmount
     };
 
     window._appDriverTips.push(tipEntry);
@@ -49,14 +48,20 @@ function handleTipSubmit(e) {
 function displayDriverTips() {
     const tipsContainer = document.getElementById('driverTips');
     tipsContainer.innerHTML = '';
+    let totalTips = 0;
 
-    window._appDriverTips.forEach((tip, index) => {
+    window._appDriverTips.forEach((tip) => {
         const bikeName = bikeIdNames[tip.bikeId];
         const tipRow = document.createElement('div');
         tipRow.className = 'tip-row';
-        tipRow.innerHTML = `Driver: ${bikeName}, Tip: $${tip.tipAmount.toFixed(2)}, Date: ${new Date(tip.date).toLocaleString()}`;
+        tipRow.innerHTML = `Driver: ${bikeName}, Tip: $${tip.tipAmount.toFixed(2)}`;
         tipsContainer.appendChild(tipRow);
+        totalTips += tip.tipAmount;
     });
+
+    // Display total tips
+    const totalTipsElement = document.getElementById('totalTips');
+    totalTipsElement.textContent = `Total Tips: $${totalTips.toFixed(2)}`;
 }
 
 function saveDriverData() {
