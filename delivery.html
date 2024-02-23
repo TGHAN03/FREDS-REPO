@@ -1,1 +1,42 @@
-g
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Coordinator App</title>
+    <link rel="stylesheet" href="index.css"> 
+</head>
+<body>
+<div class="content-wrapper">
+    <h1>FredLabs <button id="toggleDarkMode">◐</button></h1>
+    <form id="orderForm" class="orderForm">
+        <input class="inputbox" type="number" id="orderNumber" placeholder="Order Number" required>
+        <input class="inputbox" type="number" id="tipAmount" placeholder="Tip Amount" step="0.01" required>
+        <input class="inputbox" type="number" id="bikeId" placeholder="Bike ID" required>
+        <button class="inputbox2" type="submit">Log Order</button>
+    </form>
+
+    <div id="errorMessage" class="error-message"></div>
+
+    <div class="orders-container">
+
+        <div id="orderList" class="transaction-table"></div>
+    </div>
+</div>
+    <div class="results-container">
+        <div id="results" class="transaction-results" style="display: none;">
+            <h2>Results</h2>
+            <p>Total Tips: <span id="totalTips">0</span></p>
+        </div>
+    </div>
+    <div class="export-bg">
+        <ul class="export-container">
+            <li>
+                <button class="export" id="exportCsv">Export to CSV</button>
+            </li>
+        </ul>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
