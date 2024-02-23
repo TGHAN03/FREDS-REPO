@@ -57,7 +57,7 @@ function displayDriverTips() {
         const tipRow = document.createElement('div');
         tipRow.className = 'tip-row';
         tipRow.innerHTML = `
-            <div>Ticket #: ${index + 1}, Driver: ${bikeName}, Tip: $${tip.tipAmount.toFixed(2)}</div>
+            <div>Ticket #: ${index + 1}, Tip: $${tip.tipAmount.toFixed(2)}</div>
             <button onclick="editTip(${index})">Edit</button>
             <button onclick="deleteTip(${index})">Delete</button>
         `;
