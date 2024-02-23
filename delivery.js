@@ -6,6 +6,7 @@ const bikeIdNames = {
     5: "Gilberto"
 };
 
+
 // Load stored data or initialize if not present for drivers
 window._appDriverTips = JSON.parse(localStorage.getItem('_appDriverTips')) || [];
 
