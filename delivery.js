@@ -6,12 +6,12 @@ const bikeIdNames = {
 };
 
 window._appDriverTips = JSON.parse(localStorage.getItem('_appDriverTips')) || [];
-window.editingIndex = null; // Track the index of the entry being edited
+window.editingIndex = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     displayDriverTips();
     document.getElementById('tipForm').addEventListener('submit', handleTipSubmit);
-    document.getElementById('cancelEdit').addEventListener('click', cancelEdit); // Button to cancel edit mode
+    document.getElementById('cancelEdit').addEventListener('click', cancelEdit);
 
     const bikeIdSelect = document.getElementById('bikeId');
     Object.keys(bikeIdNames).forEach(id => {
@@ -27,7 +27,6 @@ function handleTipSubmit(e) {
 
     const bikeId = parseInt(document.getElementById('bikeId').value, 10);
     const tipAmount = parseFloat(document.getElementById('tipAmount').value);
-    const orderNumber = document.getElementById('orderNumber').value; // Assume orderNumber input is added
     document.getElementById('errorMessage').textContent = '';
 
     if (isNaN(tipAmount) || tipAmount <= 0) {
@@ -35,7 +34,7 @@ function handleTipSubmit(e) {
         return;
     }
 
-    const tipEntry = { bikeId, tipAmount, orderNumber };
+    const tipEntry = { bikeId, tipAmount };
 
     if (window.editingIndex !== null) {
         window._appDriverTips[window.editingIndex] = tipEntry;
@@ -58,7 +57,7 @@ function displayDriverTips() {
         const tipRow = document.createElement('div');
         tipRow.className = 'tip-row';
         tipRow.innerHTML = `
-            <div>Driver: ${bikeName}, Tip: $${tip.tipAmount.toFixed(2)}, Order: ${tip.orderNumber || 'N/A'}</div>
+            <div>Ticket #: ${index + 1}, Driver: ${bikeName}, Tip: $${tip.tipAmount.toFixed(2)}</div>
             <button onclick="editTip(${index})">Edit</button>
             <button onclick="deleteTip(${index})">Delete</button>
         `;
@@ -73,10 +72,9 @@ function editTip(index) {
     const tip = window._appDriverTips[index];
     document.getElementById('bikeId').value = tip.bikeId;
     document.getElementById('tipAmount').value = tip.tipAmount;
-    document.getElementById('orderNumber').value = tip.orderNumber || '';
     window.editingIndex = index;
 
-    document.getElementById('cancelEdit').style.display = 'inline'; // Show cancel edit button
+    document.getElementById('cancelEdit').style.display = 'inline';
 }
 
 function deleteTip(index) {
@@ -94,7 +92,7 @@ function saveDriverData() {
 function resetFormAndClearEditMode() {
     document.getElementById('tipForm').reset();
     window.editingIndex = null;
-    document.getElementById('cancelEdit').style.display = 'none'; // Hide cancel edit button
+    document.getElementById('cancelEdit').style.display = 'none';
 }
 
 function cancelEdit() {
