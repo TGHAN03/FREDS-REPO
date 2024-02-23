@@ -1,9 +1,7 @@
-// Assuming the use of the same bikeIdNames mapping
+// Mapping Bike IDs to names, excluding "0" as "PENDING"
 const bikeIdNames = {
-    0: "PENDING",
     1: "Eduardo",
     2: "Jose",
-    3: "To Go",
     4: "Honorio",
     5: "Gilberto"
 };
@@ -18,12 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Populate bikeId select options
     const bikeIdSelect = document.getElementById('bikeId');
     Object.keys(bikeIdNames).forEach(id => {
-        if (id !== "0") { // Exclude "PENDING"
-            const option = document.createElement('option');
-            option.value = id;
-            option.textContent = `${id} - ${bikeIdNames[id]}`;
-            bikeIdSelect.appendChild(option);
-        }
+        const option = document.createElement('option');
+        option.value = id;
+        option.textContent = `${id} - ${bikeIdNames[id]}`;
+        bikeIdSelect.appendChild(option);
     });
 });
 
@@ -39,7 +35,11 @@ function handleTipSubmit(e) {
         return;
     }
 
-    const tipEntry = { bikeId, tipAmount, date: new Date().toISOString() };
+    const tipEntry = { 
+        bikeId, 
+        tipAmount, 
+        date: new Date().toISOString() 
+    };
 
     window._appDriverTips.push(tipEntry);
     saveDriverData();
@@ -47,21 +47,15 @@ function handleTipSubmit(e) {
 }
 
 function displayDriverTips() {
-    const resultsDiv = document.getElementById('driverResults');
-    resultsDiv.innerHTML = '';
+    const tipsContainer = document.getElementById('driverTips');
+    tipsContainer.innerHTML = '';
 
-    const totals = window._appDriverTips.reduce((acc, tip) => {
-        acc[tip.bikeId] = acc[tip.bikeId] || { totalTips: 0, count: 0 };
-        acc[tip.bikeId].totalTips += tip.tipAmount;
-        acc[tip.bikeId].count += 1;
-        return acc;
-    }, {});
-
-    Object.keys(totals).forEach(bikeId => {
-        const info = totals[bikeId];
-        const entry = document.createElement('div');
-        entry.textContent = `${bikeIdNames[bikeId]}: $${info.totalTips.toFixed(2)} from ${info.count} deliveries`;
-        resultsDiv.appendChild(entry);
+    window._appDriverTips.forEach((tip, index) => {
+        const bikeName = bikeIdNames[tip.bikeId];
+        const tipRow = document.createElement('div');
+        tipRow.className = 'tip-row';
+        tipRow.innerHTML = `Driver: ${bikeName}, Tip: $${tip.tipAmount.toFixed(2)}, Date: ${new Date(tip.date).toLocaleString()}`;
+        tipsContainer.appendChild(tipRow);
     });
 }
 
