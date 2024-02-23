@@ -45,8 +45,7 @@ function handleFormSubmit(e) {
     const order = {
         orderNumber, 
         tipAmount, 
-        bikeId,
-        ticketNumber: window._appOrders.length + 1 // Ticket Number for each entry
+        bikeId
     };
 
     if (window.editingIndex !== null) {
@@ -70,7 +69,8 @@ function displayOrders() {
         const bikeName = bikeIdNames[order.bikeId];
         const orderRow = document.createElement('div');
         orderRow.className = 'transaction-row';
-        orderRow.innerHTML = `<div class="row-item">${order.ticketNumber}</div><div class="row-item">${order.orderNumber}</div><div class="row-item">$${order.tipAmount.toFixed(2)}</div><div class="row-item">${order.bikeId} (${bikeName})</div><div class="row-item"><button onclick="editOrder(${index})">✏️</button><button onclick="deleteOrder(${index})">❌</button></div>`;
+        // Ticket number is now dynamically generated based on index
+        orderRow.innerHTML = `<div class="row-item">${index + 1}</div><div class="row-item">${order.orderNumber}</div><div class="row-item">$${order.tipAmount.toFixed(2)}</div><div class="row-item">${order.bikeId} (${bikeName})</div><div class="row-item"><button onclick="editOrder(${index})">✏️</button><button onclick="deleteOrder(${index})">❌</button></div>`;
         ordersContainer.appendChild(orderRow);
     });
 }
