@@ -1,6 +1,6 @@
-// Mapping Bike IDs to names, including a "pending" status for ID 0
+// Mapping Bike IDs to names, including "0" as "PENDING"
 const bikeIdNames = {
-    0: "PENDING", // Adding this line to include "0" as a valid bike ID
+    0: "PENDING",
     1: "Eduardo",
     2: "Jose",
     3: "To Go",
@@ -10,7 +10,7 @@ const bikeIdNames = {
 
 // Load stored data or initialize if not present
 window._appOrders = JSON.parse(localStorage.getItem('_appOrders')) || [];
-window._appTotalTipsByBikeId = JSON.parse(localStorage.getItem('_appTotalTipsByBikeId')) || {0: 0, 1: 0, 2: 0, 4: 0, 5: 0, 3: 0}; // Including "0" in the totals
+window._appTotalTipsByBikeId = JSON.parse(localStorage.getItem('_appTotalTipsByBikeId')) || {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
 window.editingIndex = null;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -37,18 +37,16 @@ function handleFormSubmit(e) {
     const bikeId = parseInt(document.getElementById('bikeId').value, 10);
     document.getElementById('errorMessage').textContent = '';
 
-    // Updated validation to include 0 as a valid bike ID
     if (![0, 1, 2, 3, 4, 5].includes(bikeId)) {
         document.getElementById('errorMessage').textContent = "Invalid Bike ID. Please enter a Bike ID between 0 and 5.";
         return;
     }
 
     const order = {
-        orderNumber,
-        tipAmount,
+        orderNumber, 
+        tipAmount, 
         bikeId,
-        status: 0, // Default status "PENDING"
-        ticketNumber: window._appOrders.length + 1 // Ticket Number
+        ticketNumber: window._appOrders.length + 1 // Ticket Number for each entry
     };
 
     if (window.editingIndex !== null) {
@@ -66,13 +64,13 @@ function handleFormSubmit(e) {
 
 function displayOrders() {
     const ordersContainer = document.getElementById('orderList');
-    ordersContainer.innerHTML = '<div class="transaction-header"><div class="header-item">Ticket #</div><div class="header-item">Order #</div><div class="header-item">Tip</div><div class="header-item">ID (Name)</div><div class="header-item">Status</div><div class="header-item">Actions</div></div>';
+    ordersContainer.innerHTML = '<div class="transaction-header"><div class="header-item">Ticket #</div><div class="header-item">Order #</div><div class="header-item">Tip</div><div class="header-item">ID (Name)</div><div class="header-item">Actions</div></div>';
 
     window._appOrders.forEach((order, index) => {
         const bikeName = bikeIdNames[order.bikeId];
         const orderRow = document.createElement('div');
         orderRow.className = 'transaction-row';
-        orderRow.innerHTML = `<div class="row-item">${order.ticketNumber}</div><div class="row-item">${order.orderNumber}</div><div class="row-item">$${order.tipAmount.toFixed(2)}</div><div class="row-item">${order.bikeId} (${bikeName})</div><div class="row-item">${order.status === 0 ? 'PENDING' : 'Processed'}</div><div class="row-item"><button onclick="editOrder(${index})">✏️</button><button onclick="deleteOrder(${index})">❌</button></div>`;
+        orderRow.innerHTML = `<div class="row-item">${order.ticketNumber}</div><div class="row-item">${order.orderNumber}</div><div class="row-item">$${order.tipAmount.toFixed(2)}</div><div class="row-item">${order.bikeId} (${bikeName})</div><div class="row-item"><button onclick="editOrder(${index})">✏️</button><button onclick="deleteOrder(${index})">❌</button></div>`;
         ordersContainer.appendChild(orderRow);
     });
 }
@@ -97,7 +95,7 @@ function editOrder(index) {
 
 function updateTotalTipsByBikeId() {
     document.getElementById('results').style.display = 'table';
-    window._appTotalTipsByBikeId = {1: 0, 2: 0, 4: 0, 5: 0, 3: 0};
+    window._appTotalTipsByBikeId = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
 
     window._appOrders.forEach(order => {
         if (order.bikeId in window._appTotalTipsByBikeId) {
@@ -124,10 +122,10 @@ function resetFormAndClearEditMode() {
 
 function exportOrdersToCsv() {
     if (!confirm("Are you sure you want to download the CSV?")) return;
-    let csvContent = "data:text/csv;charset=utf-8,Ticket Number,Order Number,Tip Amount,Bike ID,Bike Name,Status\n";
+    let csvContent = "data:text/csv;charset=utf-8,Ticket Number,Order Number,Tip Amount,Bike ID,Bike Name\n";
     window._appOrders.forEach(order => {
         const bikeName = bikeIdNames[order.bikeId];
-        let row = `${order.ticketNumber},${order.orderNumber},${order.tipAmount},${order.bikeId},"${bikeName}",${order.status === 0 ? 'PENDING' : 'Processed'}`;
+        let row = `${order.ticketNumber},${order.orderNumber},${order.tipAmount},${order.bikeId},"${bikeName}"`;
         csvContent += row + "\n";
     });
     const encodedUri = encodeURI(csvContent);
