@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delivery Driver Tips Tracker</title>
+    <title>Delivery Drivers Tip Tracker</title>
     <style>
-        /* Basic styling for clarity */
+        /* Basic styling */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -13,7 +13,7 @@
         .container {
             margin-bottom: 20px;
         }
-        #driverResults div {
+        .tip-row {
             margin-top: 10px;
         }
     </style>
@@ -25,7 +25,7 @@
             <div>
                 <label for="bikeId">Select Your Name:</label>
                 <select id="bikeId" required>
-                    <!-- Options will be populated by JavaScript -->
+                    <!-- Options will be populated by the JavaScript -->
                 </select>
             </div>
             <div>
@@ -38,9 +38,9 @@
     </div>
     
     <div class="container">
-        <h2>Total Tips by Driver</h2>
-        <div id="driverResults">
-            <!-- Results will be displayed here -->
+        <h2>Tip Entries</h2>
+        <div id="driverTips">
+            <!-- Tip entries will be displayed here -->
         </div>
     </div>
 
