@@ -1,6 +1,6 @@
-
-// Mapping Bike IDs to names
+// Mapping Bike IDs to names, including a "pending" status for ID 0
 const bikeIdNames = {
+    0: "PENDING", // Adding this line to include "0" as a valid bike ID
     1: "Eduardo",
     2: "Jose",
     3: "To Go",
@@ -10,7 +10,7 @@ const bikeIdNames = {
 
 // Load stored data or initialize if not present
 window._appOrders = JSON.parse(localStorage.getItem('_appOrders')) || [];
-window._appTotalTipsByBikeId = JSON.parse(localStorage.getItem('_appTotalTipsByBikeId')) || {1: 0, 2: 0, 4: 0, 5: 0, 3: 0};
+window._appTotalTipsByBikeId = JSON.parse(localStorage.getItem('_appTotalTipsByBikeId')) || {0: 0, 1: 0, 2: 0, 4: 0, 5: 0, 3: 0}; // Including "0" in the totals
 window.editingIndex = null;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -37,15 +37,16 @@ function handleFormSubmit(e) {
     const bikeId = parseInt(document.getElementById('bikeId').value, 10);
     document.getElementById('errorMessage').textContent = '';
 
-    if (![1, 2, 3, 4, 5].includes(bikeId)) {
-        document.getElementById('errorMessage').textContent = "Invalid Bike ID. Please enter a Bike ID between 1 and 5.";
+    // Updated validation to include 0 as a valid bike ID
+    if (![0, 1, 2, 3, 4, 5].includes(bikeId)) {
+        document.getElementById('errorMessage').textContent = "Invalid Bike ID. Please enter a Bike ID between 0 and 5.";
         return;
     }
 
-    const order = { 
-        orderNumber, 
-        tipAmount, 
-        bikeId, 
+    const order = {
+        orderNumber,
+        tipAmount,
+        bikeId,
         status: 0, // Default status "PENDING"
         ticketNumber: window._appOrders.length + 1 // Ticket Number
     };
