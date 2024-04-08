@@ -53,16 +53,20 @@ function displayDriverTips() {
     let totalTips = 0;
 
     window._appDriverTips.forEach((tip, index) => {
-        const bikeName = bikeIdNames[tip.bikeId];
-        const tipRow = document.createElement('div');
-        tipRow.className = 'tip-row';
-        tipRow.innerHTML = `
-            <div>Ticket #: ${index + 1}, Tip: $${tip.tipAmount.toFixed(2)}</div>
-            <button onclick="editTip(${index})">Edit</button>
-            <button onclick="deleteTip(${index})">Delete</button>
-        `;
-        tipsContainer.appendChild(tipRow);
-        totalTips += tip.tipAmount;
+        if (tip && tip.bikeId !== undefined) { // Check to avoid TypeError
+            const bikeName = bikeIdNames[tip.bikeId] || 'Unknown';
+            const tipRow = document.createElement('div');
+            tipRow.className = 'tip-row';
+            tipRow.innerHTML = `
+                <div>Ticket #: ${index + 1}, Driver: ${bikeName}, Tip: $${tip.tipAmount.toFixed(2)}</div>
+                <button onclick="editTip(${index})">Edit</button>
+                <button onclick="deleteTip(${index})">Delete</button>
+            `;
+            tipsContainer.appendChild(tipRow);
+            totalTips += tip.tipAmount;
+        } else {
+            console.error('Invalid tip encountered:', tip);
+        }
     });
 
     document.getElementById('totalTips').textContent = `Total Tips: $${totalTips.toFixed(2)}`;
