@@ -4,7 +4,7 @@ const bikeIdNames = {
     1: "Eduardo",
     2: "Jose",
     3: "To Go",
-    4: "Honorio",
+    4: "Manuel",
     5: "Gilberto"
 };
 
