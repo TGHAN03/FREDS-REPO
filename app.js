@@ -4,8 +4,8 @@ const bikeIdNames = {
     1: "Eduardo",
     2: "Jose",
     3: "To Go",
-    4: "Manuel",
-    5: "Gilberto"
+    4: "Arunlfo",
+    5: "Busser"
 };
 
 // Load stored data or initialize if not present
