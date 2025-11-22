@@ -8,7 +8,6 @@ const bikeIdNames = {
 };
 
 window._appOrders = JSON.parse(localStorage.getItem('_appOrders')) || [];
-window.editingIndex = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     const orderForm = document.getElementById('orderForm');
@@ -22,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const clearAllButton = document.getElementById('clearAll');
     const toggleDarkModeButton = document.getElementById('toggleDarkMode');
 
-    // Dark mode init
+    // Initialize dark mode
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const currentMode = localStorage.getItem('darkMode');
     if (currentMode === 'enabled' || (currentMode === null && prefersDarkScheme)) {
