@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Display orders and totals on load
     displayOrders();
-    updateTotalTips();
+    updateTotalTips(); // <-- This ensures live totals are visible immediately
 
     // ------------------ Form Submit ------------------
     orderForm.addEventListener('submit', function(e){
@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ------------------ Live total while typing ------------------
     tipAmountInput.addEventListener('input', updateTotalTips);
-
     bikeIdInput.addEventListener('input', updateTotalTips);
 
     // ------------------ Export CSV ------------------
