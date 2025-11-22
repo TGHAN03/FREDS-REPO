@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('orderForm').addEventListener('submit', handleFormSubmit);
     document.getElementById('exportCsv').addEventListener('click', exportOrdersToCsv);
 
-    // Toggle dark mode setup
     const toggleDarkModeButton = document.getElementById('toggleDarkMode');
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const currentMode = localStorage.getItem('darkMode');
@@ -27,7 +26,22 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add('dark-mode');
     }
     toggleDarkModeButton.addEventListener('click', toggleDarkMode);
+
+    // Initialize live total tips
+    initLiveTotalTips();
 });
+
+// ---------------- Live Total Tips ----------------
+function initLiveTotalTips() {
+    const tipInput = document.getElementById('tipAmount');
+    tipInput.addEventListener('input', () => {
+        let currentTip = parseFloat(tipInput.value) || 0;
+        let total = window._appOrders.reduce((sum, order) => sum + order.tipAmount, 0);
+        total += currentTip; // include the tip currently being typed
+        document.getElementById('totalTips').textContent = total.toFixed(2);
+    });
+}
+// -------------------------------------------------
 
 function handleFormSubmit(e) {
     e.preventDefault();
@@ -69,7 +83,6 @@ function displayOrders() {
         const bikeName = bikeIdNames[order.bikeId];
         const orderRow = document.createElement('div');
         orderRow.className = 'transaction-row';
-        // Ticket number is now dynamically generated based on index
         orderRow.innerHTML = `<div class="row-item">${index + 1}</div><div class="row-item">${order.orderNumber}</div><div class="row-item">$${order.tipAmount.toFixed(2)}</div><div class="row-item">${order.bikeId} (${bikeName})</div><div class="row-item"><button onclick="editOrder(${index})">✏️</button><button onclick="deleteOrder(${index})">❌</button></div>`;
         ordersContainer.appendChild(orderRow);
     });
@@ -81,6 +94,8 @@ function deleteOrder(index) {
         displayOrders();
         updateTotalTipsByBikeId();
         saveData();
+        // Update live total as well
+        document.getElementById('tipAmount').dispatchEvent(new Event('input'));
     }
 }
 
@@ -112,20 +127,26 @@ function updateTotalTipsByBikeId() {
         totalRow.innerHTML = `<div class="row-item2">${bikeId}</div><div class="row-item2">${bikeName}</div><div class="row-item2">$${window._appTotalTipsByBikeId[bikeId].toFixed(2)}</div>`;
         resultsDiv.appendChild(totalRow);
     });
+
+    // Update the grand total span
+    const grandTotal = window._appOrders.reduce((sum, order) => sum + order.tipAmount, 0);
+    document.getElementById('totalTips').textContent = grandTotal.toFixed(2);
 }
 
 function resetFormAndClearEditMode() {
     document.getElementById('orderForm').reset();
     window.editingIndex = null;
     document.getElementById('orderNumber').focus();
+    // Update live total when cleared
+    document.getElementById('tipAmount').dispatchEvent(new Event('input'));
 }
 
 function exportOrdersToCsv() {
     if (!confirm("Are you sure you want to download the CSV?")) return;
     let csvContent = "data:text/csv;charset=utf-8,Ticket Number,Order Number,Tip Amount,Bike ID,Bike Name\n";
-    window._appOrders.forEach(order => {
+    window._appOrders.forEach((order, index) => {
         const bikeName = bikeIdNames[order.bikeId];
-        let row = `${order.ticketNumber},${order.orderNumber},${order.tipAmount},${order.bikeId},"${bikeName}"`;
+        let row = `${index + 1},${order.orderNumber},${order.tipAmount},${order.bikeId},"${bikeName}"`;
         csvContent += row + "\n";
     });
     const encodedUri = encodeURI(csvContent);
