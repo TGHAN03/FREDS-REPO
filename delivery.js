@@ -1,8 +1,8 @@
 const bikeIdNames = {
     1: "Eduardo",
     2: "Jose",
-    4: "Honorio",
-    5: "Gilberto"
+    4: "Arunlfo",
+    5: "Busser"
 };
 
 window._appDriverTips = JSON.parse(localStorage.getItem('_appDriverTips')) || [];
